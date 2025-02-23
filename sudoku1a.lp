@@ -6,19 +6,24 @@
 
 
 % Your implementation please...
-row(1..4).
-col(1..4).
-num(1..4).
-subgridsize(2).
-subgridlabel(1..4).
-subgrid1(X,Y,1):- row(X),row(Y), X <= 2, Y <= 2.
-subgrid1(X,Y,2):- row(X),row(Y), X <= 2, Y > 2.
-subgrid1(X,Y,3):- row(X),row(Y), X > 2, Y <= 2.
-subgrid1(X,Y,4):- row(X),row(Y), X > 2, Y > 2.
+% Sudoku Solver for 4x4 grid
+
+% Define the domains for rows, columns, and numbers
+#const size=4.
+row(1..size).
+col(1..size).
+num(1..size).
+#const subgrid_size=2.
+subgridlabel(1..subgrid_size*subgrid_size).
+
+subgrid(X, Y, Label) :- Label = 1+((X - 1) / subgrid_size) * subgrid_size + ((Y - 1) / subgrid_size) , row(X), col(Y).
 
 
-%intial (x,y,value)
-% Ensure each number appears exactly once in each row
-1 { cell(X, Y, N) : col(Y) } 1 :- row(X), num(N).
-1 { cell(X, Y, N) : row(X) } 1 :- col(X), num(N).
-#show sudoku/3.
+1 { sodoku(X, Y, N) : num(N) } 1 :- row(X), col(Y).
+1 { sodoku(X, Y, N) : col(Y) } 1 :- row(X), num(N).
+1 { sodoku(X, Y, N) : row(X) } 1 :- col(Y), num(N).
+%1 { sodoku(X, Y, N) : subgrid(X, Y, Label) } 1 :- num(N), subgridlabel(Label).
+sodoku(X, Y, N) :- initial(X, Y, N).
+
+#show sodoku/3.
+
