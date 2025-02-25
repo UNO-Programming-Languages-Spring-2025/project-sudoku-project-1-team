@@ -13,17 +13,17 @@
 row(1..size).
 col(1..size).
 num(1..size).
-#const subgrid_size=2.
-subgridlabel(1..subgrid_size*subgrid_size).
+%#const subgrid_size=2.
 
-subgrid(X, Y, Label) :- Label = 1+((X - 1) / subgrid_size) * subgrid_size + ((Y - 1) / subgrid_size) , row(X), col(Y).
-
-
-1 { sodoku(X, Y, N) : num(N) } 1 :- row(X), col(Y).
-1 { sodoku(X, Y, N) : col(Y) } 1 :- row(X), num(N).
-1 { sodoku(X, Y, N) : row(X) } 1 :- col(Y), num(N).
-%1 { sodoku(X, Y, N) : subgrid(X, Y, Label) } 1 :- num(N), subgridlabel(Label).
-sodoku(X, Y, N) :- initial(X, Y, N).
-
-#show sodoku/3.
+%putting the example into the loaded field
+sudoku(X, Y, N) :- initial(X, Y, N).
+%each cell in the grid contains exactly one number.
+1{ sudoku(X, Y, N) : num(N) } 1 :- row(X), col(Y).
+%enumber appears exactly once in each row.
+1{ sudoku(X, Y, N) : col(Y) } 1 :- row(X), num(N).
+%each number appears exactly once in each column.
+1{ sudoku(X, Y, N) : row(X) }1  :- col(Y), num(N).
+%1{ sudoku(X, Y, N) : subgrid(X, Y, Label) } 1 :- num(N), subgridlabel(Label).
+%subgrid(X, Y, Label) :- Label = 1+((X - 1) / subgrid_size) * subgrid_size + ((Y - 1) / subgrid_size) , row(X), col(Y).
+#show sudoku/3.
 
