@@ -15,8 +15,9 @@ col(1..size).
 num(1..size).
 %#const subgrid_size=2.
 
-%putting the example into the loaded field
+%putting the example loaded into the rows and columns 
 sudoku(X, Y, N) :- initial(X, Y, N).
+
 %each cell in the grid contains exactly one number.
 1{ sudoku(X, Y, N) : num(N) } 1 :- row(X), col(Y).
 %enumber appears exactly once in each row.
